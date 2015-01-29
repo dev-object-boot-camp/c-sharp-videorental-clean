@@ -1,0 +1,24 @@
+﻿@model HashSet<video_rental.Models.Rental>
+
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+
+<html>
+<head>
+    @Html.Partial("~/Views/Includes/_Common.cshtml")
+    <title>Current Rentals</title>
+</head>
+<body>
+    @Html.Partial("~/Views/Includes/_Header.cshtml")
+    <h1>Current Rentals</h1>
+    <ul>
+        @foreach (var rental in Model)
+        {
+            <li>@rental.Movie.Title (ends @rental.EndDate)</li>
+        }
+    </ul>
+    @Html.Partial("~/Views/Includes/_Footer.cshtml")
+</body>
+</html>

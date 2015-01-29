@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<project name="NAntDemo" default="build">
+    <property name="project.name" value="video-rental"/>
+    <property name="project.version" value="1.0.0"/>
+    <property name="dir.nunit" value="packages\Nunit.Runners.2.6.3\tools"/>
+    <property name="configuration" value="debug"/>
+    <property name="build.path" value="project::get-base-directory()/build"/>
+
+    <!-- remove generated files -->
+    <target name="clean" description="remove all generated files">
+        <delete>
+            <fileset>
+                <include name="**/bin/**" />
+                <include name="**/obj/**" />
+                <include name="**/*.user/**" />
+            </fileset>
+        </delete>
+    </target>
+
+    <!-- execute a debug build -->
+    <target name="debug" description="execute a debug build">
+        <property name="configuration" value="debug"/>
+        <call target="test"/>
+    </target>
+
+    <!-- execute a release build -->
+    <target name="release" description="execute a release build">
+        <property name="configuration" value="release"/>
+        <call target="test"/>
+    </target>
+
+    <!-- compile source code -->
+        <target name="build" description="compile the source code">
+        <loadtasks assembly="tools/nantcontrib-0.92/bin/NAnt.Contrib.Tasks.dll" />
+        <msbuild project="${project.name}.sln">
+            <property name="Configuration" value="Release"/>
+            <arg value="/p:OutputPath=video-rental/build" />
+            <arg value="/framework=net-4.5" />
+        </msbuild>
+    </target>
+
+    <!-- execute unit tests -->
+    <target name="test" depends="build" description="run unit tests.">
+        <exec program="${dir.nunit}\nunit-console.exe">
+            <arg value="D:/office/project/SampleCSharpLibrary/build/SampleCSharpLibraryTest.dll" />
+            <arg value="/xml=SampleCSharpLibraryTest-results.xml" />
+            <arg value="/framework=net-4.0" />
+        </exec>
+    </target>
+
+    <target name="testWithCoverage" depends="build" description="run unit tests with coverage.">
+        <exec program="${dir.openCover}\OpenCover.Console.exe"
+        commandline="-register:user &quot;-target:${dir.nunit}\nunit-console.exe&quot; &quot;-targetargs:D:\office\project\SampleCSharpLibrary\build\SampleCSharpLibraryTest.dll /noshadow /xml=SampleCSharpLibraryTest-results.xml /framework=net-4.0&quot; &quot;-output:D:/office/project/SampleCSharpLibrary/coverage/coverage.xml&quot; -mergebyhash -filter:+[*]*">
+        </exec>
+    </target>
+
+    <target name="testWithCoverageReport" depends="testWithCoverage" description="run unit tests with coverage and generate report.">
+        <exec program="${dir.reportGenerator}\ReportGenerator.exe" commandline="-reports:D:/office/project/SampleCSharpLibrary/coverage/coverage.xml -targetdir:D:/office/project/SampleCSharpLibrary/coverage -reporttypes:Html">
+        </exec>
+    </target>
+
+    <target name="codeAnalysis" depends="build" description="run gendarme to analysis code.">
+        <exec program="${dir.gendarme}\gendarme.exe"
+        commandline="--html:D:/office/project/SampleCSharpLibrary/coverage/gendarme.html">
+        <arg value="D:/office/project/SampleCSharpLibrary/build/SampleCSharpLibrary.dll" />
+        </exec>
+    </target>
+
+    <!-- run the application -->
+    <target name="run" depends="test">
+        <exec program="${project.name}.exe"
+            basedir="${project.name}\bin\${configuration}\"/>
+    </target>
+
+</project>

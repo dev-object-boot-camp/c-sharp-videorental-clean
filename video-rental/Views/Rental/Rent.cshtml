@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+@model string
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Rental Statement</title>
+</head>
+<body>
+    @Html.Partial("~/Views/Includes/_Common.cshtml")
+    @Html.Partial("~/Views/Includes/_Header.cshtml")
+    <h1>Rental Statement</h1>
+    <pre>@Model</pre>
+    @Html.Partial("~/Views/Includes/_Footer.cshtml")
+</body>
+</html>

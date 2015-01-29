@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+@{
+    Layout = null;
+}
+@model HashSet<video_rental.Models.Customer>
+
+
+    <html>
+    <head>
+        <title>Administration</title>
+        @Html.Partial("~/Views/Includes/_Common.cshtml")
+    </head>
+    <body>
+        @Html.Partial("~/Views/Includes/_Header.cshtml")
+        <h1>Customers</h1>
+        <ul>
+            @foreach (var customer in Model)
+            {
+                <li>@customer.Name</li>
+            }
+        </ul>
+        @Html.Partial("~/Views/Includes/_Footer.cshtml")
+    </body>
+</html>

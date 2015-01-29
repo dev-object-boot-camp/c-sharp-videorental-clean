@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+@model HashSet<video_rental.Models.Customer>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Login</title>
+    @Html.Partial("~/Views/Includes/_Common.cshtml")
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="login" method="post" >
+        <p>Select user:</p>
+        <select class="customer" name="userName">
+           @foreach (var customer in Model)
+           {
+            <option value="@customer.Name">@customer.Name</option>
+           }
+        </select>
+        <input type="submit" value="login" />
+    </form>
+    @Html.Partial("~/Views/Includes/_Footer.cshtml")
+</body>
+</html>
+

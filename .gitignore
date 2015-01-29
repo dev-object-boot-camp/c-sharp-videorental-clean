@@ -1,0 +1,6 @@
+video-rental/packages/
+*/bin/*
+bin/
+obj/
+*.user
+*.suo

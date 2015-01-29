@@ -1,0 +1,32 @@
+﻿@model System.Collections.Generic.IEnumerable<video_rental.Models.Transaction>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @Html.Partial("~/Views/Includes/_Common.cshtml")
+    <title>Transaction History</title>
+</head>
+<body>
+    @Html.Partial("~/Views/Includes/_Header.cshtml")
+    <h1>Transaction History</h1>
+    <ul>
+        @foreach (var transaction in Model)
+        {
+            <li>
+                Transaction on @transaction.DateTime<br/>
+                Movies Rented:
+                @foreach(var rental in transaction.Rentals)
+                {
+                   @Html.Raw(rental.Movie.Title + ",");
+                }
+            </li>
+        }
+    </ul>
+    @Html.Partial("~/Views/Includes/_Footer.cshtml")
+</body>
+</html>
